@@ -5,6 +5,7 @@ class CreateMerchandiseLots < ActiveRecord::Migration[7.0]
       t.float :height, null: false
       t.integer :unit, null: false
       t.references :inventory, null: true, foreign_key: true
+      t.references :merchandise_receipt, null: false, foreign_key: true
 
       t.timestamps
     end

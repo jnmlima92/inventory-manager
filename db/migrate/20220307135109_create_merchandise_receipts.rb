@@ -3,8 +3,7 @@ class CreateMerchandiseReceipts < ActiveRecord::Migration[7.0]
     create_table :merchandise_receipts do |t|
       t.timestamp :receipt_date
       t.float :height
-      t.string :unit
-      t.references :merchandise_lot, null: false, foreign_key: true
+      t.integer :unit
 
       t.timestamps
     end
