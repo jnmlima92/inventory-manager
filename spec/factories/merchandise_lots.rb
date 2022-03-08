@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :merchandise_lot do
-    name { "MyString" }
+    name { "merch name" }
     height { 1.5 }
-    unit { "MyString" }
+    unit { "in_kilo" }
     inventory { nil }
   end
 end
