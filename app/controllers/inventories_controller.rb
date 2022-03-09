@@ -1,4 +1,4 @@
-class InventoryController < ApplicationController
+class InventoriesController < ApplicationController
   before_action :set_inventory, only: [:update, :show, :destroy]
   
   def index
