@@ -19,11 +19,15 @@ RSpec.describe MerchandiseReceipt, type: :model do
     before do
       subject.update(receipt_date: Time.zone.yesterday, unit: :in_ton)
       subject.merchandise_lots << create(:merchandise_lot, merchandise_receipt: subject)
+      subject.merchandise_lots << create(:merchandise_lot, merchandise_receipt: subject)
       subject.save
     end
     
     it { expect(subject.valid?).to be_truthy }
-    it { expect(subject.merchandise_lots.count).to eq 1 }
-    it { expect(subject.height).to eq subject.merchandise_lots.first.height }
+    it { expect(subject.merchandise_lots.count).to eq 2 }
+    it do
+      total_height = subject.merchandise_lots.inject(0){|sum, lot| sum + lot.height }
+      expect(subject.height).to eq total_height
+    end
   end
 end
