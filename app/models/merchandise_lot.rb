@@ -7,7 +7,7 @@ class MerchandiseLot < ApplicationRecord
   after_save :receipt_sum_height
   
   def receipt_sum_height
-    merchandise_receipt.sum_height
+    merchandise_receipt&.sum_height
   end
 
 end

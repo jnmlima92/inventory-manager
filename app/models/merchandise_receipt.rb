@@ -1,10 +1,10 @@
 class MerchandiseReceipt < ApplicationRecord
-  validates_presence_of :receipt_date, :height, :unit, :merchandise_lots
+  validates_presence_of :receipt_date, :height, :unit
+
   has_many :merchandise_lots
   enum unit: { in_kilo: 0, in_ton: 1 }
   
   before_validation :sum_height
-
   accepts_nested_attributes_for :merchandise_lots
 
   def sum_height

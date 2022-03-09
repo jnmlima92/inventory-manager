@@ -10,10 +10,10 @@ RSpec.describe MerchandiseLot, type: :model do
   context "missing params" do
     it 'named' do
       expect(subject.valid?).to be_falsey
-      expect(subject.errors.messages.keys).to eq %i[name height unit merchandise_receipt]
+      expect(subject.errors.messages.keys).to eq %i[name height unit inventory merchandise_receipt]
 
       subject.errors.each do |error|
-        if error.attribute == :merchandise_receipt
+        if %i[inventory merchandise_receipt].include? error.attribute
           expect(error.message).to eq 'must exist'
         else
           expect(error.message).to eq "can't be blank"
@@ -28,7 +28,6 @@ RSpec.describe MerchandiseLot, type: :model do
       subject.height = 198.25
       subject.unit = :in_kilo
       subject.inventory = inventory
-      byebug
       subject.merchandise_receipt = receipt
       subject.save
     end
