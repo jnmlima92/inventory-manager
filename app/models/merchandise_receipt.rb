@@ -5,7 +5,7 @@ class MerchandiseReceipt < ApplicationRecord
   
   before_validation :sum_height
 
-  private
+  accepts_nested_attributes_for :merchandise_lots
 
   def sum_height
     total_height = 0
