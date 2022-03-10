@@ -1,24 +1,33 @@
-# README
+##### Prerequisites
+- Docker and Docker compose already installed
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##### 1. Check out the repository
 
-Things you may want to cover:
+```bash
+git clone git@github.com:jnmlima92/inventory-manager.git
+```
 
-* Ruby version
+##### 2. Create and setup the database
 
-* System dependencies
+Run the following commands in application path to create and setup the database.
 
-* Configuration
+```bash
+docker-compose build
+docker-compose run --rm inventory-manager.web bundle exec rake db:setup
+```
 
-* Database creation
+##### 3. Start the Rails server
 
-* Database initialization
+You can start the rails server using the command given below.
 
-* How to run the test suite
+```bash
+docker-compose up
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+And now you can visit the site with the URL http://localhost:3000
 
-* Deployment instructions
+##### 4. Running tests
 
-* ...
+```bash
+docker-compose run --rm inventory-manager.web rspec .
+```
