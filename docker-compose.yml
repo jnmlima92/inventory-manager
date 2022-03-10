@@ -1,17 +1,26 @@
-version: '3'
+version: '3.4'
 services:
-  inventory-manager.postgres.db:
-    image: postgres
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+  postgres.db:
+    image: postgres:12.5-alpine
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: password
-  inventory-manager.web:
-    build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+      - POSTGRES_PASSWORD=password
     volumes:
-      - .:/myapp
+      - pg_data:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/usr/src/app
+      - bundle:/usr/local/bundle
     ports:
       - "3000:3000"
+    environment:
+      - HISTFILE=/usr/src/app/log/.bash_history 
     depends_on:
-      - inventory-manager.postgres.db
+      - postgres.db
+
+volumes:
+  pg_data:
+  bundle:
