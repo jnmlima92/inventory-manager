@@ -8,7 +8,7 @@ RSpec.describe MerchandiseReceipt, type: :model do
   context "missing params" do
     it 'named' do
       expect(subject.valid?).to be_falsey
-      expect(subject.errors.messages.keys).to eq %i[receipt_date unit]
+      expect(subject.errors.messages.keys).to eq %i[receipt_date unit merchandise_lots]
       subject.errors.each do |error|
         expect(error.message).to eq "can't be blank"
       end
@@ -18,8 +18,8 @@ RSpec.describe MerchandiseReceipt, type: :model do
   context "valid params" do
     before do
       subject.update(receipt_date: Time.zone.yesterday, unit: :in_ton)
-      subject.merchandise_lots << create(:merchandise_lot, merchandise_receipt: subject)
-      subject.merchandise_lots << create(:merchandise_lot, merchandise_receipt: subject)
+      subject.merchandise_lots << build(:merchandise_lot, merchandise_receipt: subject)
+      subject.merchandise_lots << build(:merchandise_lot, merchandise_receipt: subject)
       subject.save
     end
     

@@ -11,9 +11,12 @@ RSpec.describe Inventory, type: :model do
   end
   
   context "with a lot" do
-    let(:inventory) { create :inventory } 
-    let(:merchandise_lot) { create :merchandise_lot, inventory_id: inventory.id} 
-    before { inventory.merchandise_lots << merchandise_lot }
+    let(:inventory) { create :inventory }
+    let(:merchandise_lot) { double MerchandiseLot, name: "Lote name" }
+
+    before do
+      allow(inventory).to receive(:merchandise_lots).and_return([merchandise_lot])
+    end
     
     it { expect(inventory.valid?).to be_truthy }
     it { expect(inventory.merchandise_lots.first.name).to eq merchandise_lot.name }
