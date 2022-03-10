@@ -4,23 +4,28 @@ class MerchandiseReceiptsController < ApplicationController
     render json: { response: receipts, count: receipts.count }, status: :ok
   rescue StandardError => e
     Rails.logger.warn e.message
-    render json: { message: 'Error on get receipts' }, status: :bad_request
+    render json: { message: e.message }, status: :bad_request
   end
 
   def show
     receipt = MerchandiseReceipt.find params[:id]
-    render json: receipt, status: :ok
+    render json: receipt, include: :merchandise_lots, status: :ok
   rescue StandardError => e
     Rails.logger.warn e.message
-    render json: { message: 'Error on get receipt' }, status: :bad_request
+    render json: { message: e.message }, status: :bad_request
   end
 
   def create
-    receipt = MerchandiseReceipt.create receipt_params
-    render json: receipt, status: :ok
+    receipt = MerchandiseReceipt.new receipt_params
+    response = if receipt.save
+                 receipt
+               else
+                 receipt.errors.messages
+               end
+    render json: response, status: :ok
   rescue StandardError => e
     Rails.logger.warn e.message
-    render json: { message: 'Error on create merchandise receipt' }, status: :bad_request
+    render json: { message: e.message }, status: :bad_request
   end
 
   private

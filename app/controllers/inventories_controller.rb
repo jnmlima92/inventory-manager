@@ -17,8 +17,13 @@ class InventoriesController < ApplicationController
   end
   
   def create
-    inventory = Inventory.create inventory_params
-    render json: inventory, status: :ok
+    inventory = Inventory.new inventory_params
+    response = if inventory.save
+                 inventory
+               else
+                 inventory.errors.messages
+               end
+    render json: response, status: :ok
   rescue StandardError => e
     Rails.logger.warn e.message
     render json: { message: 'Error on create inventory' }, status: :bad_request
